@@ -2,6 +2,8 @@
 #include "ElevatorView.h"
 #include <algorithm>
 
+extern HINSTANCE hInst;
+
 #define WM_USER_ELEVATORVIEW (WM_USER + 100)
 
 const WCHAR szElevatorViewClass[] = L"ElevatorViewClass";
@@ -326,7 +328,7 @@ void ElevatorView::DrawFloorButtons(HDC hdc)
             DeleteObject(hBrush);
             Rectangle(hdc, upBtn.left, upBtn.top, upBtn.right, upBtn.bottom);
 
-            TextOut(hdc, upBtn.left + 5, upBtn.top + 1, L"↑", 1);
+            TextOut(hdc, upBtn.left + 5, upBtn.top + 1, L"\x2191", 1);
         }
 
         if (i > 1)
@@ -342,7 +344,7 @@ void ElevatorView::DrawFloorButtons(HDC hdc)
             DeleteObject(hBrush);
             Rectangle(hdc, downBtn.left, downBtn.top, downBtn.right, downBtn.bottom);
 
-            TextOut(hdc, downBtn.left + 5, downBtn.top + 1, L"↓", 1);
+            TextOut(hdc, downBtn.left + 5, downBtn.top + 1, L"\x2193", 1);
         }
     }
 }

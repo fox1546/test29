@@ -100,16 +100,16 @@ ElevatorSimulator::ElevatorSimulator()
 {
 }
 
-void ElevatorSimulator::Initialize(int elevators, int floors, bool linked)
+void ElevatorSimulator::Initialize(int numElevatorsParam, int numFloorsParam, bool linked)
 {
-    numElevators = elevators;
-    numFloors = floors;
+    numElevators = numElevatorsParam;
+    numFloors = numFloorsParam;
     linkedOperation = linked;
 
-    elevators.clear();
+    this->elevators.clear();
     for (int i = 0; i < numElevators; i++)
     {
-        elevators.emplace_back(i, numFloors);
+        this->elevators.emplace_back(i, numFloors);
     }
 
     pendingRequests.clear();

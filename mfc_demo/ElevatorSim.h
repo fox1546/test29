@@ -55,7 +55,7 @@ public:
     std::vector<ElevatorRequest> pendingRequests;
 
     ElevatorSimulator();
-    void Initialize(int elevators, int floors, bool linked);
+    void Initialize(int numElevators, int numFloors, bool linked);
     void Update();
     void RequestElevator(int floor, ElevatorDirection direction);
     void PressElevatorButton(int elevatorId, int floor);

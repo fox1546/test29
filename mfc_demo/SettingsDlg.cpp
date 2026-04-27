@@ -2,6 +2,8 @@
 #include "SettingsDlg.h"
 #include <commctrl.h>
 
+extern HINSTANCE hInst;
+
 SettingsDlg::SettingsDlg()
     : numElevators(1)
     , numFloors(10)
