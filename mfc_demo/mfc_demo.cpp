@@ -3,6 +3,9 @@
 
 #include "framework.h"
 #include "mfc_demo.h"
+#include "ElevatorSim.h"
+#include "SettingsDlg.h"
+#include "ElevatorView.h"
 
 #define MAX_LOADSTRING 100
 
@@ -10,6 +13,8 @@
 HINSTANCE hInst;                                // 当前实例
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
+ElevatorSimulator g_elevatorSim;
+ElevatorView* g_pElevatorView = NULL;
 
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -136,6 +141,53 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
+                break;
+            case IDM_SETTINGS:
+                {
+                    SettingsDlg dlg;
+                    dlg.numElevators = g_elevatorSim.numElevators;
+                    dlg.numFloors = g_elevatorSim.numFloors;
+                    dlg.linkedOperation = g_elevatorSim.linkedOperation;
+
+                    if (dlg.DoModal(hWnd) == IDOK)
+                    {
+                        g_elevatorSim.Initialize(dlg.numElevators, dlg.numFloors, dlg.linkedOperation);
+                        if (g_pElevatorView)
+                        {
+                            g_pElevatorView->StopSimulation();
+                            delete g_pElevatorView;
+                            g_pElevatorView = NULL;
+                        }
+                    }
+                }
+                break;
+            case IDM_RUN:
+                {
+                    if (!g_pElevatorView)
+                    {
+                        if (g_elevatorSim.elevators.empty())
+                        {
+                            g_elevatorSim.Initialize(1, 10, false);
+                        }
+                        g_pElevatorView = new ElevatorView();
+                        if (g_pElevatorView->Create(hWnd, &g_elevatorSim))
+                        {
+                            g_pElevatorView->Show(SW_SHOW);
+                            g_pElevatorView->StartSimulation();
+                        }
+                        else
+                        {
+                            delete g_pElevatorView;
+                            g_pElevatorView = NULL;
+                            MessageBox(hWnd, L"创建电梯仿真窗口失败", L"错误", MB_OK | MB_ICONERROR);
+                        }
+                    }
+                    else
+                    {
+                        g_pElevatorView->Show(SW_RESTORE);
+                        SetForegroundWindow(g_pElevatorView->hWnd);
+                    }
+                }
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
