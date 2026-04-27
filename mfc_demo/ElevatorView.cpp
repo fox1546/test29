@@ -328,7 +328,7 @@ void ElevatorView::DrawFloorButtons(HDC hdc)
             DeleteObject(hBrush);
             Rectangle(hdc, upBtn.left, upBtn.top, upBtn.right, upBtn.bottom);
 
-            TextOut(hdc, upBtn.left + 5, upBtn.top + 1, L"\x2191", 1);
+            TextOut(hdc, upBtn.left + 6, upBtn.top + 1, L"^", 1);
         }
 
         if (i > 1)
@@ -344,7 +344,7 @@ void ElevatorView::DrawFloorButtons(HDC hdc)
             DeleteObject(hBrush);
             Rectangle(hdc, downBtn.left, downBtn.top, downBtn.right, downBtn.bottom);
 
-            TextOut(hdc, downBtn.left + 5, downBtn.top + 1, L"\x2193", 1);
+            TextOut(hdc, downBtn.left + 6, downBtn.top + 1, L"v", 1);
         }
     }
 }
